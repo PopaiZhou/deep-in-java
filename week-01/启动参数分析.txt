@@ -1,0 +1,29 @@
+java -Denv=PRO -server 
+-Xms4g  JVM初始分配的内存4G
+-Xmx4g  JVM最大分配的内存4G
+-Xmn2g  设置年轻代大小为2G
+-XX:MaxDirectMemorySize=512m  用于设置New I/O(java.nio) direct-buffer allocations的最大大小 512M 此参数的含义是当Direct ByteBuffer分配的堆外内存到达指定大小512M后，即触发Full GC
+-XX:MetaspaceSize=128m        Metaspace扩容时触发FullGC的初始化阈值,也是最小的阈值
+-XX:MaxMetaspaceSize=512m     用于设置metaspace区域的最大值,如果MaxMetaspaceSize设置太小，可能会导致频繁FGC，甚至OOM；
+-XX:-UseBiasedLocking         关闭偏向锁
+-XX:-UseCounterDecay          关闭热度衰减，让方法计数器统计方法调用的绝对次数，这样，只要系统运行足够长，绝大部分方法都会被编译成本地代码．
+-XX:AutoBoxCacheMax=10240     调整Integer里面有IntegerCache缓存大小
+-XX:+UseConcMarkSweepGC       开启并发标记清除
+-XX:CMSInitiatingOccupancyFraction=75 
+-XX:+UseCMSInitiatingOccupancyOnly 
+
+设置过-XX:CMSInitiatingOccupancyFraction=75，那么最终_initiating_occupancy=75%。在你设置了-XX:+UseCMSInitiatingOccupancyOnly的情况下，老年代内存使用率一旦超过75%就会执行CMS GC了。
+
+-XX:MaxTenuringThreshold=6     设置的是年龄阈值，默认15（对象被复制的次数）
+-XX:+ExplicitGCInvokesConcurrent  这样设置可以使Full gc有更少的停机时间
+-XX:+ParallelRefProcEnabled       开启并行的处理Reference对象
+-XX:+PerfDisableSharedMem         开启后GC日志文件不会输出到/tmp(hsperfdata)目录下
+-XX:+AlwaysPreTouch               开启后服务启动的时候真实的分配物理内存给jvm，但是会影响JVM启动的速度
+-XX:-OmitStackTraceInFastThrow    省略异常栈信息从而快速抛出
+-XX:+HeapDumpOnOutOfMemoryError   当JVM发生OOM时，自动生成DUMP文件。
+-XX:HeapDumpPath=/home/devjava/logs/  设置DUMP文件路径
+-Xloggc:/home/devjava/logs/lifecircle-tradecore-gc.log 设置GC log日志文件
+-XX:+PrintGCApplicationStoppedTime   打印应用程序由于执行VM安全点操作而阻塞的时间
+-XX:+PrintGCDateStamps               打印GC日志时间
+-XX:+PrintGCDetails                  打印GC日志详情
+-javaagent:/home/devjava/ArmsAgent/arms-bootstrap-1.7.0-SNAPSHOT.jar -jar /home/devjava/lifecircle-tradecore/app/lifecircle-tradecore.jar

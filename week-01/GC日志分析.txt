@@ -1,0 +1,32 @@
+                                       阶段1： Initial Mark
+2020-10-29T21:19:19.488+0800: 114.015: [GC (CMS Initial Mark) [1 CMS-initial-mark: 106000K(2097152K)] 1084619K(3984640K), 0.2824583 secs] [Times: user=0.86 sys=0.00, real=0.28 secs]
+                                          GC (CMS Initial Mark - 收集阶段，开始收集所有GC Roots和直接引用到的对象； 106000K 当前老年代使用情况(2097152K)当前老年代可用容量 1084619K 当前整个堆使用情况 3984640K整个堆的容量  [Times: user=0.86 sys=0.00, real=0.28 secs] 时间计量
+										  
+									   阶段2：Concurrent Mark
+2020-10-29T21:19:19.771+0800: 114.298: [CMS-concurrent-mark-start]  并发收集阶段，这个阶段会遍历整个年老代并且标记活着的对象；
+2020-10-29T21:19:19.931+0800: 114.458: [CMS-concurrent-mark: 0.160/0.160 secs] [Times: user=0.32 sys=0.03, real=0.16 secs] 展示该阶段持续的时间和时钟时间；
+
+                                       阶段3：Concurrent Preclean
+2020-10-29T21:19:19.931+0800: 114.459: [CMS-concurrent-preclean-start]  这个阶段负责前一个阶段标记了又发生改变的对象标记；
+2020-10-29T21:19:19.998+0800: 114.525: [CMS-concurrent-preclean: 0.065/0.066 secs] [Times: user=0.05 sys=0.01, real=0.06 secs] 展示该阶段持续的时间和时钟时间；
+
+                                       阶段4：Concurrent Abortable Preclean
+2020-10-29T21:19:19.998+0800: 114.525: [CMS-concurrent-abortable-preclean-start]CMS: abort preclean due to time   可终止的并发预清理；
+2020-10-29T21:19:25.072+0800: 119.599: [CMS-concurrent-abortable-preclean: 5.038/5.073 secs] [Times: user=7.72 sys=0.50, real=5.08 secs] 展示该阶段持续的时间和时钟时间
+
+                                       阶段5：Final Remark
+2020-10-29T21:19:25.076+0800: 119.603: [GC (CMS Final Remark) [YG occupancy: 1279357 K (1887488 K)]
+                                        收集阶段，这个阶段会标记老年代全部的存活对象，包括那些在并发标记阶段更改的或者新创建的引用对象；
+										YG occupancy: 1279357 K (1887488 K)   年轻代当前占用情况和容量；
+2020-10-29T21:19:25.076+0800: 119.603: [Rescan (parallel) , 0.3120602 secs]  这个阶段在应用停止的阶段完成存活对象的标记工作；
+2020-10-29T21:19:25.388+0800: 119.915: [weak refs processing, 0.0015920 secs] 第一个子阶段，随着这个阶段的进行处理弱引用；
+2020-10-29T21:19:25.390+0800: 119.917: [class unloading, 0.0517863 secs]   第二个子阶段
+2020-10-29T21:19:25.441+0800: 119.969: [scrub symbol table, 0.0212825 secs]
+2020-10-29T21:19:25.463+0800: 119.990: [scrub string table, 0.0022435 secs][1 CMS-remark: 106000K(2097152K)] 1385358K(3984640K), 0.3959182 secs] [Times: user=1.33 sys=0.00, real=0.40 secs]
+										最后一个子阶段  106000K(2097152K) 在这个阶段之后老年代占有的内存大小和老年代的容量；   1385358K(3984640K) 在这个阶段之后整个堆的内存大小和整个堆的容量；
+										
+										第六阶段：Concurrent Sweep
+2020-10-29T21:19:25.473+0800: 120.000: [CMS-concurrent-sweep-start]  这个阶段主要是清除那些没有标记的对象并且回收空间；
+2020-10-29T21:19:25.540+0800: 120.067: [CMS-concurrent-sweep: 0.067/0.067 secs] [Times: user=0.18 sys=0.02, real=0.06 secs] 展示该阶段持续的时间和时钟时间；
+2020-10-29T21:19:25.540+0800: 120.068: [CMS-concurrent-reset-start]  这个阶段重新设置CMS算法内部的数据结构，为下一个收集阶段做准备；
+2020-10-29T21:19:25.544+0800: 120.071: [CMS-concurrent-reset: 0.003/0.003 secs] [Times: user=0.00 sys=0.00, real=0.01 secs]  展示该阶段持续的时间和时钟时间；
